@@ -46,11 +46,9 @@ export async function POST(request: NextRequest){
             success : "pass"
         },{status: 200});
 
-        response.cookies.set('token',token)
+        response.cookies.set('token',token,{sameSite:'none',secure:true})
 
-        return NextResponse.json({
-            token
-        });
+        return response;
 
 
     } catch (err) {

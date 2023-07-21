@@ -3,7 +3,7 @@ import mongoose from "mongoose";
 const ThreadSchema = new mongoose.Schema({
     owner_id: {
         type: mongoose.Schema.Types.ObjectId,
-        ref: 'users'
+        ref: "users"
     },
     body: {
         type: String,
