@@ -5,7 +5,10 @@ import ReactTimeAgo from 'react-time-ago'
 import TimeAgo from 'javascript-time-ago'
 // import en from 'javascript-time-ago/locale/en.json'
 
-const Thread = () => {
+const Thread = (curElem:any) => {
+    // console.log('curEle',curElem);
+
+    // if(curElem)
   return (
     <>
         <div className='flex gap-3 my-4 mx-3.5 border-b-[1px] border-[#333232]'>
@@ -14,13 +17,13 @@ const Thread = () => {
             </div>
             <div className='w-full'>
                 <div className='flex items-center justify-between'>
-                    <h1 className='hover:underline cursor-pointer'>{'Zuck'}</h1>
+                    <h1 className='hover:underline cursor-pointer'>{curElem.owner_id.username}</h1>
                     <div className='flex'>
                         <p className='text-[rgba(97,97,97,1)] mr-3'>3 hr ago</p>
                         <MoreHorizontal className=''/>
                     </div>
                 </div>
-                <p className='pt-1.5'>{"hey threreererere"}</p>
+                <p className='pt-1.5'>{curElem.body}</p>
                 <div className='flex gap-5 py-4'>
                     <Heart className=''/>
                     <MessageCircle className=''/>

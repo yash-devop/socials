@@ -11,6 +11,8 @@ const ThreadSchema = new mongoose.Schema({
     thread_pic:{
         type: String,
     }
+},{
+    timestamps: true
 })
 
 const ThreadModel = mongoose.models.threads  || mongoose.model('threads',ThreadSchema);

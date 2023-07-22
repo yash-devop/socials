@@ -1,10 +1,12 @@
 "use client"
+
 import {Image} from 'react-feather'
 import React, { useEffect, useState } from 'react'
 import Thread from '../thread/page'
 import axios from 'axios'
 
 const feed = () => {
+  const [threads , setThreads] = useState<any>();
   const [image, setImage] = useState<File | string>();
   const [threadBody,setThreadBody] = useState({
      body: "",
@@ -12,6 +14,18 @@ const feed = () => {
   });
   // console.log(threadBody);
   
+  // get the threads on the feeds page:
+  const allThreads=async()=>{
+      try {
+        const response = await axios.get("/api/feeds")
+         console.log(response.data.allThreads)
+         setThreads(response.data.allThreads) 
+      } catch (err) {
+          console.log(err);
+      }
+  }
+  // console.log("threads", threads)
+
   const getThreads=async(e: React.SyntheticEvent)=>{
      e.preventDefault();
      try {
@@ -29,7 +43,11 @@ const feed = () => {
     }
   }
 
-  console.log('image',image);
+  useEffect(()=>{
+      allThreads()
+  },[])
+
+
   return (
     <div className='max-w-[750px] mx-auto'>
 
@@ -50,19 +68,16 @@ const feed = () => {
             </div>
           
           </form>
-        </div>
-        <Thread />                
-        <Thread />                
-        <Thread />                
-        {/* {
-            threads&& threads.map((curElem)=>{
+        </div>                         
+        {
+            threads && threads.map((curElem:any)=>{
                 return(
                     <>
-                        <Thread key={curElem.$id} {...curElem}/>                
+                        <Thread key={curElem._id} {...curElem}/>                
                     </>
                 )
             })
-        } */}
+        }
     </div>
   )
 }
