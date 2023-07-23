@@ -8,22 +8,8 @@ import axios from 'axios'
 // import en from 'javascript-time-ago/locale/en.json'
 import jwt from 'jsonwebtoken';
 
-const Thread = (curElem:any) => {
-    const [userData , setUserData] = useState<any>({})
-    // const getUsername=async()=>{
-    //     try {
-    //         const response = await axios.get('/api/getuser');
-    //         setUserData(response.data);
-            
-    //     } catch (error) {
-    //         console.log(error);
-    //     }
-    // }
-    
-    // useEffect(()=>{
-    //     getUsername();
-    // },[])
-    // console.log('userdata',userData);
+const HomeThread = (curElem:any) => {
+
   return (
     <>
         <div className='flex gap-3 my-4 mx-3.5 border-b-[1px] border-[#333232]'>
@@ -32,7 +18,7 @@ const Thread = (curElem:any) => {
             </div>
             <div className='w-full'>
                 <div className='flex items-center justify-between'>
-                    <h1 className='hover:underline cursor-pointer text-lg font-semibold'><Link href={`/home/@${userData.username}`}>{curElem.owner_id.username}</Link></h1>
+                    <h1 className='hover:underline cursor-pointer text-lg font-semibold'><Link href={`/@${curElem.owner_id.username}`}>{curElem.owner_id.username}</Link></h1>
                     <div className='flex'>
                         <p className='text-[rgba(97,97,97,1)] mr-3'>3 hr ago</p>
                         <MoreHorizontal className=''/>
@@ -57,4 +43,4 @@ const Thread = (curElem:any) => {
 }
 
 
-export default Thread
+export default HomeThread;

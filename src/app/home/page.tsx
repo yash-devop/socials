@@ -4,36 +4,39 @@ import {Image} from 'react-feather'
 import React, { useEffect, useState } from 'react'
 import Thread from '../thread/page'
 import axios from 'axios'
+import HomeThread from '../homethread/page'
+import Link from 'next/link'
+import { useRouter } from 'next/navigation'
 
-const feed = () => {
-  const [isLoading, setisLoading] = useState(true);
+const home = () => {
+  const router = useRouter();
   const [threads , setThreads] = useState<any>();
+  const [homePageThreads , setHomePageThreads] = useState<any>();
+  const [isHomePageThreads , setIsHomePageThreads] = useState(false);
   const [image, setImage] = useState<File | string>();
   const [threadBody,setThreadBody] = useState({
      body: "",
      thread_pic:"https://pbs.twimg.com/profile_images/77846223/profile_400x400.jpg"
   });
+
+  const homeThreads=async()=>{
+    try {
+       const response = await axios.get('/api/homethreads')
+       console.log('HomeThreads : ', response.data);
+       setHomePageThreads(response.data);
+       setIsHomePageThreads(true);
+    } catch (err) {
+      console.log(err);
+    }
+  }
   const fetchThreads = async () => {
     try {
       const response = await axios.get("/api/feeds");
       setThreads(response.data.allThreads);
-      setisLoading(false);
     } catch (err) {
       console.log(err);
     }
   };
-  // get the threads on the feeds page:
-  const allThreads=async()=>{
-      try {
-        const response = await axios.get("/api/feeds")
-         console.log(response.data.allThreads)
-         setThreads(response.data.allThreads)
-         setisLoading(false);
-      } catch (err) {
-          console.log(err);
-      }
-  }
-  // console.log("threads", threads)
 
   const postThreads=async(e: React.SyntheticEvent)=>{
      e.preventDefault();
@@ -54,7 +57,8 @@ const feed = () => {
   }
 
   useEffect(()=>{
-      allThreads()
+      fetchThreads()
+      homeThreads()
   },[])
 
 
@@ -79,7 +83,7 @@ const feed = () => {
           
           </form>
         </div>                         
-        {
+        {/* {
             threads && threads.map((curElem:any)=>{
                 return(
                     <>
@@ -87,9 +91,28 @@ const feed = () => {
                     </>
                 )
             })
+        } */}
+        {
+            isHomePageThreads ? (
+              homePageThreads && homePageThreads.length > 0 ? (
+                homePageThreads.map((curElem: any) => {
+                  return (
+                    <>
+                      <HomeThread key={curElem._id} {...curElem} />
+                    </>
+                  );
+                })
+              ) : (
+                router.push('/login')
+                )
+                ) : (
+              <div className='flex items-center justify-center h-80'>
+                <span className="loader"></span>
+              </div>
+            )
         }
     </div>
   )
 }
 
-export default feed
+export default home
