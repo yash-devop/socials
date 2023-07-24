@@ -11,10 +11,11 @@ connect();
 export async function POST(request : NextRequest){
     try {
         const reqbody= await request.json();
-        const {username , password} = reqbody;
+        const {username , password , fullname} = reqbody;
 
         console.log(username)
         console.log(password)
+        console.log(fullname)
 
 
         const user = await UserModel.findOne({username});
@@ -32,12 +33,13 @@ export async function POST(request : NextRequest){
         
 
         const newUser = await UserModel.create({
+            fullname: fullname,
             username,
             password: hashedPassword,
         })
         
-        const savedUser = await newUser.save();
-        return NextResponse.json(savedUser);
+        // const savedUser = await newUser.save();
+        return NextResponse.json(newUser);
 
         
     } catch (err) {

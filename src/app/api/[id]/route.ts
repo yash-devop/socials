@@ -18,7 +18,7 @@ export async function GET(request: NextRequest){
         }
 
         const user = await UserModel.findOne({username : path[1]})
-
+        console.log('user',user);
         // errorhandling
         if(!user){
             return NextResponse.json({
@@ -31,17 +31,18 @@ export async function GET(request: NextRequest){
 
         // below line executes when user found or the above if condition failed
         const id = user._id;
+        const fullname = user.fullname;
 
         const userName = await UserModel.findOne({_id: id});
         const user_name = userName.username;
-        console.log('usernameData : ', user_name);
 
 
         const userThread = await ThreadModel.find({ owner_id: id });
         // return NextResponse.json(userThread);
         const userThreadsWithUsername = userThread.map(thread => ({
             ...thread.toObject(),
-            username: user_name // Attach the username to the thread
+            username: user_name, // Attach the username to the thread,
+            fullname
           }));
       
           // Send the response with the userThreadsWithUsername array

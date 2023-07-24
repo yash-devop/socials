@@ -38,8 +38,8 @@ export default function Username({ params }: any) {
               <div className="flex flex-col justify-center min-h-[350px] border-b border-[#1d1d1d] ">
                   <div className="flex w-full justify-between px-4 ">
                       <div className="pb-4">
-                          <h1 className="mb-0 mr-0  -ml-2 font-bold text-[30px]">{userThread ? userThread[0].username : "No user"}</h1>
-                          <h3 className="pt-2 -ml-1 font-semibold">tom.developer</h3>
+                          <h1 className="mb-0 mr-0  -ml-2 font-bold text-[30px]">{userThread ? userThread[0].fullname : "No user"}</h1>
+                          <h3 className="pt-2 -ml-1 font-semibold">{userThread ? userThread[0].username : "No user"}</h3>
                       </div>
                       <img className="rounded-full w-20 h-20 mt-3.5"  src="https://pbs.twimg.com/profile_images/77846223/profile_400x400.jpg" alt="user-logo" />
                   </div>
@@ -75,15 +75,21 @@ export default function Username({ params }: any) {
           ) : (
             // <h1>{decodeURIComponent(params.name)} doesnt exist</h1>
             // router.push('/login')
+            <>
+            <Shortnav/>
             <h1>{decodeURIComponent(params.name)} doesnt exist</h1>
+            </>
           )
         ) : (
+          <>
+          <Shortnav/>
           <div className="flex flex-col items-center justify-center h-80">
             <span className="loader"></span>
             <p className="text-gray-600 pt-5">
               Please check the username or try to login again
             </p>
           </div>
+          </>
           // router.push('/login')
         )}
       </div>
