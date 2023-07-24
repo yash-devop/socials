@@ -32,7 +32,7 @@ const Thread = (curElem:any) => {
             </div>
             <div className='w-full'>
                 <div className='flex items-center justify-between'>
-                    <h1 className='hover:underline cursor-pointer text-lg font-semibold'><Link href={`/home/@${userData.username}`}>{curElem.owner_id.username}</Link></h1>
+                    <h1 className='hover:underline cursor-pointer text-lg font-semibold'><Link href={`/@${userData.username}`}>{curElem.owner_id.username}</Link></h1>
                     <div className='flex'>
                         <p className='text-[rgba(97,97,97,1)] mr-3'>3 hr ago</p>
                         <MoreHorizontal className=''/>

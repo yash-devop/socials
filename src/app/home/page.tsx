@@ -1,28 +1,51 @@
 "use client"
 
 import {Image} from 'react-feather'
-import React, { useEffect, useState } from 'react'
-import Thread from '../thread/page'
+import React, { ChangeEvent, useEffect, useState } from 'react';
 import axios from 'axios'
 import HomeThread from '../homethread/page'
-import Link from 'next/link'
 import { useRouter } from 'next/navigation'
+
+
 
 const home = () => {
   const router = useRouter();
   const [threads , setThreads] = useState<any>();
   const [homePageThreads , setHomePageThreads] = useState<any>();
   const [isHomePageThreads , setIsHomePageThreads] = useState(false);
-  const [image, setImage] = useState<File | string>();
+  const [image, setImage] = useState<string | ArrayBuffer | null>(null);
+  console.log('IMAGEE',image);
   const [threadBody,setThreadBody] = useState({
      body: "",
-     thread_pic:"https://pbs.twimg.com/profile_images/77846223/profile_400x400.jpg"
+     thread_pic: image
   });
 
+  const handleImage = (e: ChangeEvent<HTMLInputElement>) => {
+    const file = e.target.files?.[0];
+    if (file) {
+      setFileToBase(file);
+    }
+  };
+
+  const setFileToBase = (file: File) => {
+    const reader = new FileReader();
+    reader.readAsDataURL(file);
+    reader.onloadend = () => {
+      setImage(reader.result);
+    };
+  };
+  const postThreads=async(e: React.SyntheticEvent)=>{
+     e.preventDefault();
+     try {
+        const response = await axios.post("/api/thread",threadBody)
+        fetchThreads();
+     } catch (err) {
+        console.log(err);
+     }
+  }
   const homeThreads=async()=>{
     try {
        const response = await axios.get('/api/homethreads')
-       console.log('HomeThreads : ', response.data);
        setHomePageThreads(response.data);
        setIsHomePageThreads(true);
     } catch (err) {
@@ -38,16 +61,6 @@ const home = () => {
     }
   };
 
-  const postThreads=async(e: React.SyntheticEvent)=>{
-     e.preventDefault();
-     try {
-        const response = await axios.post("/api/thread",threadBody)
-        console.log(response);
-        fetchThreads()
-     } catch (err) {
-        console.log(err);
-     }
-  }
    
   const handleImageInput=()=>{
     const imageInput = document.querySelector(".image-input") as HTMLElement;
@@ -55,12 +68,20 @@ const home = () => {
       imageInput.click();
     }
   }
+  useEffect(() => {
+    // Update threadPic whenever the image state changes
+    setThreadBody((prevThreadBody) => ({
+      ...prevThreadBody,
+      thread_pic: image,
+    }));
+  }, [image]);
 
   useEffect(()=>{
-      fetchThreads()
       homeThreads()
   },[])
-
+  useEffect(()=>{
+      fetchThreads()
+  },[])
 
   return (
     <div className='max-w-[700px] mx-auto'>
@@ -71,13 +92,7 @@ const home = () => {
           
             <div className='flex justify-between items-center pt-2'>
                 <Image width={24} onClick={handleImageInput}/>
-                <input type="file" hidden accept='image/*' className='image-input' onChange={({target})=>{
-                    if(target.files){
-                       const file = target.files[0];
-                       setImage(file);
-                      //  setImage(URL.createObjectURL(file));
-                    }
-                }}/>
+                <input type="file" hidden accept='image/*' className='image-input' onChange={handleImage}/>
                 <input type="submit" value="Post" className='bg-white text-black py-2 px-4 border border-black rounded text-sm ' />
             </div>
           

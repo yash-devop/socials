@@ -6,10 +6,10 @@ import TimeAgo from 'javascript-time-ago'
 import Link from 'next/link'
 import axios from 'axios'
 // import en from 'javascript-time-ago/locale/en.json'
-import jwt from 'jsonwebtoken';
+
 
 const HomeThread = (curElem:any) => {
-
+   console.log('curelm',curElem);
   return (
     <>
         <div className='flex gap-3 my-4 mx-3.5 border-b-[1px] border-[#333232]'>
@@ -24,7 +24,7 @@ const HomeThread = (curElem:any) => {
                         <MoreHorizontal className=''/>
                     </div>
                 </div>
-                <p className='pt-1 font-light'>{curElem.body}</p>
+                <p className='pt-1 font-light'>{curElem._doc.body}</p>
                 <div className='flex gap-5 py-4'>
                     <Heart className='w-[22px]'/>
                     <MessageCircle className='w-[22px]'/>

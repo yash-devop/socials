@@ -9,7 +9,12 @@ const ThreadSchema = new mongoose.Schema({
         type: String,
     },
     thread_pic:{
-        type: String,
+        public_id:{
+            type: String,
+        },
+        url:{
+            type: String,
+        }
     }
 },{
     timestamps: true

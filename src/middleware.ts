@@ -6,7 +6,6 @@ export function middleware(request: NextRequest) {
     const isPublicPath = path === '/login' || path ==='/signup';
 
     const token = request.cookies.get("token")?.value || ""  //accessing the token from cookies.
-    // console.log("middlewareToken",token)
 
     if(isPublicPath && token){
         return NextResponse.redirect(new URL('/home',request.nextUrl))  
@@ -19,4 +18,4 @@ export function middleware(request: NextRequest) {
 
 export const config = {
     matcher: ['/login']  // this are the routes where the middlewares are applied.
-  }
+}
