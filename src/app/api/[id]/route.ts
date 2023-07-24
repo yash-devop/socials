@@ -26,11 +26,26 @@ export async function GET(request: NextRequest){
                 success: "failed"
             },{status : 404})
         }
+
+
+
         // below line executes when user found or the above if condition failed
         const id = user._id;
 
+        const userName = await UserModel.findOne({_id: id});
+        const user_name = userName.username;
+        console.log('usernameData : ', user_name);
+
+
         const userThread = await ThreadModel.find({ owner_id: id });
-        return NextResponse.json(userThread);
+        // return NextResponse.json(userThread);
+        const userThreadsWithUsername = userThread.map(thread => ({
+            ...thread.toObject(),
+            username: user_name // Attach the username to the thread
+          }));
+      
+          // Send the response with the userThreadsWithUsername array
+          return NextResponse.json(userThreadsWithUsername);
 
     } catch (error) {
         return NextResponse.json({
