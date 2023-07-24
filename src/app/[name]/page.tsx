@@ -3,6 +3,10 @@ import axios from "axios";
 import { useEffect, useState } from "react";
 import Thread from "../thread/page";
 import { useRouter } from "next/navigation";
+
+import Shortnav from '@/components/Shortnav'
+
+
 export default function Username({ params }: any) {
   // const router = useRouter();
   const [isUserThreads, setIsUserThreads] = useState(false);
@@ -21,16 +25,20 @@ export default function Username({ params }: any) {
   useEffect(() => {
     getUserThread();
   }, []);
+
+  console.log('UserThread', userThread);
   return (
     <>
       <div>
         {isUserThreads ? (
           userThread && userThread.length > 0 ? (
+            <>
+            <Shortnav/>
             <div className="max-w-[670px] mx-auto">
               <div className="flex flex-col justify-center min-h-[350px] border-b border-[#1d1d1d] ">
                   <div className="flex w-full justify-between px-4 ">
                       <div className="pb-4">
-                          <h1 className="mb-0 mr-0  -ml-2 font-bold text-[30px]">Tom Shaw</h1>
+                          <h1 className="mb-0 mr-0  -ml-2 font-bold text-[30px]">{userThread ? userThread[0].username : "No user"}</h1>
                           <h3 className="pt-2 -ml-1 font-semibold">tom.developer</h3>
                       </div>
                       <img className="rounded-full w-20 h-20 mt-3.5"  src="https://pbs.twimg.com/profile_images/77846223/profile_400x400.jpg" alt="user-logo" />
@@ -49,7 +57,7 @@ export default function Username({ params }: any) {
                         </div>
                         <div className="flex">
                           <p className="pr-1">10</p>
-                          <h2>Followings</h2>
+                          <h2>Following</h2>
                         </div>
                       </div>
                       <button className="border w-full rounded-md h-[3rem]">Follow</button>
@@ -63,6 +71,7 @@ export default function Username({ params }: any) {
                   );
                 })}
             </div>
+            </>
           ) : (
             // <h1>{decodeURIComponent(params.name)} doesnt exist</h1>
             // router.push('/login')

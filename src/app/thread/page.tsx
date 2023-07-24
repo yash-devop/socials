@@ -9,7 +9,6 @@ import axios from 'axios'
 import jwt from 'jsonwebtoken';
 
 const Thread = (curElem:any) => {
-    console.log('curELeme',curElem);
     const [userData , setUserData] = useState<any>({})
     // const getUsername=async()=>{
     //     try {
