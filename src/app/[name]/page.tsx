@@ -41,7 +41,8 @@ export default function Username({ params }: any) {
                           <h1 className="mb-0 mr-0  -ml-2 font-bold text-[30px]">{userThread ? userThread[0].fullname : "No user"}</h1>
                           <h3 className="pt-2 -ml-1 font-semibold">{userThread ? userThread[0].username : "No user"}</h3>
                       </div>
-                      <img className="rounded-full w-20 h-20 mt-3.5"  src="https://pbs.twimg.com/profile_images/77846223/profile_400x400.jpg" alt="user-logo" />
+                      <img className="rounded-full w-20 h-20 mt-3.5 object-cover"  src={userThread[0].profile_pic.url} alt="user-logo" />
+                      {/* <img className="rounded-full w-20 h-20 mt-3.5"  src="https://pbs.twimg.com/profile_images/77846223/profile_400x400.jpg" alt="user-logo" /> */}
                   </div>
                   <div className="px-3 mt-4">
                       <p className="font-light font leading-[24px] text-[16px]">Full-Stack Developer💻<br/>

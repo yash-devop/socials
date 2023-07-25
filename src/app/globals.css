@@ -104,3 +104,11 @@ textarea{
 textarea::placeholder{
   color: #474747;
 }
+
+/* .threadLine::before{
+  content: "|";
+  width: 1px;
+  height: auto;
+  background: blue;
+  margin-right: 150px;
+} */

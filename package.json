@@ -20,6 +20,7 @@
     "eslint": "8.45.0",
     "eslint-config-next": "13.4.10",
     "formidable": "^3.5.0",
+    "html-react-parser": "^4.2.0",
     "javascript-time-ago": "^2.5.9",
     "jsonwebtoken": "^9.0.1",
     "mongoose": "^7.3.4",

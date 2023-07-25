@@ -34,17 +34,19 @@ export async function GET(request: NextRequest){
         // below line executes when user found or the above if condition failed
         const id = user._id;
         const fullname = user.fullname;
-
+        const profile_pic = user.profilepic;
         const userName = await UserModel.findOne({_id: id});
         const user_name = userName.username;
 
 
         const userThread = await ThreadModel.find({ owner_id: id }).sort({createdAt: -1});
+        console.log('sophiaTHread',userThread);
         // return NextResponse.json(userThread);
         const userThreadsWithUsername = userThread.map(thread => ({
             ...thread.toObject(),
             username: user_name, // Attach the username to the thread,
-            fullname
+            fullname,
+            profile_pic
           }));
       
           // Send the response with the userThreadsWithUsername array

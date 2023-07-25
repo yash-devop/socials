@@ -1,0 +1,26 @@
+@sophiadev doesnt exist
+
+
+even though sophia is signedIN
+
+so , instead of @sophiadev doesnt exist  , just show the Sophia Johnson and other UI part , follow 
+and display "NO POST"
+
+and also if @sophiadev2 is not created but search through the url like @sophiadev2 , then display directly @sophiadev doesnt exist instead of the whole UI.
+
+REFER this : /api/[id]  
+
+user {
+  profilepic: {
+    public_id: 'thread_images/gcev4q0hjzhfaiacwnlf',
+    url: 'https://res.cloudinary.com/djomu8i9v/image/upload/v1690302240/thread_images/gcev4q0hjzhfaiacwnlf.jpg'
+  },
+  _id: new ObjectId("64bff71cf5b9aeeb081600a6"),
+  fullname: 'Sophia Johnson',
+  username: 'sophiadev',
+  password: '$2a$10$JkKXYJAg/sY9GKBDzQDjMOOA/LXCWg3AJVShdK.s6WqhS7UwTpsnK',
+  __v: 0
+}
+
+When @ethan ? then  response contains => array of data => [data is here]
+when @sophiadev ? then response contains => empty array => []

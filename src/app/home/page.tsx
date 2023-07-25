@@ -43,6 +43,9 @@ useEffect(()=>{
       setFileToBase(file);
       setDisplayImage(URL.createObjectURL(file));
     }
+    else{
+      setImage(null)
+    }
   };
 
   const setFileToBase = (file: File) => {
@@ -90,7 +93,7 @@ useEffect(()=>{
     // Update threadPic whenever the image state changes
     setThreadBody((prevThreadBody) => ({
       ...prevThreadBody,
-      thread_pic: image,
+      thread_pic: image ,
     }));
   }, [image]);
 

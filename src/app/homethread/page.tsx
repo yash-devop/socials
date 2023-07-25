@@ -26,7 +26,7 @@ const HomeThread = (curElem:any) => {
                     </div>
                 </div>
                 <p className='pt-1 font-light mb-4'>{curElem._doc.body}</p>
-                <Image draggable={false} src={curElem._doc.thread_pic.url} alt="userPOSTimg" width={0} height={0} sizes="100vw" style={{ width: '100%', height: 'auto' }} />
+                <Image draggable={false} src={curElem._doc.thread_pic.url} alt="userPOSTimg" width={0} height={0} sizes="100vw"  style={{ width: '100%', height: 'auto' }} />
                 <div className='flex gap-5 py-4'>
                     <Heart className='w-[22px]'/>
                     <MessageCircle className='w-[22px]'/>
