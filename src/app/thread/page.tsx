@@ -2,13 +2,15 @@
 import React, { useEffect, useMemo, useState } from 'react'
 import {MoreHorizontal,Heart,Repeat,Send,MessageCircle} from 'react-feather'
 import ReactTimeAgo from 'react-time-ago'
+import en from 'javascript-time-ago/locale/en.json'
 import TimeAgo from 'javascript-time-ago'
 import Link from 'next/link'
 import axios from 'axios'
-// import en from 'javascript-time-ago/locale/en.json'
 import jwt from 'jsonwebtoken';
-
+import Image from 'next/image'
+TimeAgo.addDefaultLocale(en)
 const Thread = (curElem:any) => {
+    console.log('curWEL',curElem);
     const [userData , setUserData] = useState<any>({})
     // const getUsername=async()=>{
     //     try {
@@ -35,11 +37,12 @@ const Thread = (curElem:any) => {
                     <h1 className='hover:underline cursor-pointer text-lg font-semibold'>{curElem.username}</h1>
                     {/* <h1 className='hover:underline cursor-pointer text-lg font-semibold'><Link href={`/@${userData.username}`}>{curElem.username}</Link></h1> */}
                     <div className='flex'>
-                        <p className='text-[rgba(97,97,97,1)] mr-3'>3 hr ago</p>
+                        <p className='text-[rgba(97,97,97,1)] mr-3'><ReactTimeAgo date={curElem.createdAt} locale='en-US'/></p>
                         <MoreHorizontal className=''/>
                     </div>
                 </div>
-                <p className='pt-1 font-light'>{curElem.body}</p>
+                <p className='pt-1 font-light mb-4'>{curElem.body}</p>
+                <Image draggable={false} src={curElem.thread_pic.url} alt="userPOSTimg" width={0} height={0} sizes="100vw" style={{ width: '100%', height: 'auto' }} />
                 <div className='flex gap-5 py-4'>
                     <Heart className='w-[22px]'/>
                     <MessageCircle className='w-[22px]'/>

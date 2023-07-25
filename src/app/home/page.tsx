@@ -1,6 +1,8 @@
 "use client"
 
-import {Image} from 'react-feather'
+import {Image as ImageIcon} from 'react-feather'
+import {XCircle} from 'react-feather'
+import Image from 'next/image'
 import React, { ChangeEvent, useEffect, useState } from 'react';
 import axios from 'axios'
 import HomeThread from '../homethread/page'
@@ -10,6 +12,7 @@ import { useRouter } from 'next/navigation'
 
 const home = () => {
   const router = useRouter();
+  const [displayImage , setDisplayImage] = useState<any>("");
   const [threads , setThreads] = useState<any>();
   const [homePageThreads , setHomePageThreads] = useState<any>();
   const [isHomePageThreads , setIsHomePageThreads] = useState(false);
@@ -20,10 +23,25 @@ const home = () => {
      thread_pic: image
   });
 
+useEffect(()=>{
+  const textarea: any = document.querySelector("textarea");
+  const textareaFunction = (e:any)=>{
+    textarea.style.height = "auto";
+    let scheight = e.target.scrollHeight;
+    textarea.style.height = `${scheight}px`;
+}
+  textarea?.addEventListener("keyup",textareaFunction)
+
+  return ()=> removeEventListener("keyup",textareaFunction)
+},[])
+  const deleteImage=()=>{
+    setDisplayImage(null);
+  }
   const handleImage = (e: ChangeEvent<HTMLInputElement>) => {
     const file = e.target.files?.[0];
     if (file) {
       setFileToBase(file);
+      setDisplayImage(URL.createObjectURL(file));
     }
   };
 
@@ -88,12 +106,38 @@ const home = () => {
 
         <div className='p-4 mx-auto'>
           <form action="" onSubmit={postThreads}>
-            <textarea required className=' w-full bg-[#48484891] p-4 rounded-lg outline-none' name="body" id="" placeholder='Say Something...' value={threadBody.body} onChange={(e)=>setThreadBody({...threadBody , body : e.target.value})}></textarea>
-          
-            <div className='flex justify-between items-center pt-2'>
-                <Image width={24} onClick={handleImageInput}/>
+            {/* <div className='bg-[#16141491]'>
+            </div> */}
+              <textarea required  className='w-full bg-[#16141491] p-4 rounded-lg outline-none' name="body" id="" placeholder='Say Something...' value={threadBody.body} onChange={(e)=>setThreadBody({...threadBody , body : e.target.value})}></textarea>
+                {
+                  displayImage ? (
+                    <>
+                    
+                        <div className='relative'>
+                          <img src={displayImage} draggable={false} alt="" className='relative w-[700px] min-h-[471px] object-cover'/>
+                          <div className='absolute top-0 right-0'>
+                          <XCircle  width={40} className='mt-3 mr-2 top-0 right-0 shadow-2xl  text-[#41404b] cursor-pointer' onClick={deleteImage}/>
+                          </div>
+                        </div>
+                    </>
+                  ) : null
+                }
+            <div className='HomeImage-btn flex justify-between items-center pt-2 cursor-pointer' >
+                <div data-rnwi-h7ga17-hover-focus="true" className='w-[50px] h-[50px] flex items-center justify-center rounded-full' onClick={handleImageInput}>
+                  <ImageIcon width={24} className='cursor-pointer' />
+                </div>
                 <input type="file" hidden accept='image/*' className='image-input' onChange={handleImage}/>
-                <input type="submit" value="Post" className='bg-white text-black py-2 px-4 border border-black rounded text-sm ' />
+                {
+                  threadBody.body === "" || threadBody.body.length <= 4 ? (
+                      <>
+                          <input type="submit" disabled value="Post" className='bg-[#292929] text-black py-2 px-4 border border-black rounded text-sm cursor-pointer' />
+                      </>
+                  ) : (
+                    <>
+                          <input type="submit" value="Post" className='bg-white text-black py-2 px-4 border border-black rounded text-sm cursor-pointer' />
+                    </>
+                  )
+                }
             </div>
           
           </form>

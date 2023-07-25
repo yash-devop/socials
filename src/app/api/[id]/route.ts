@@ -4,6 +4,8 @@ import { NextRequest, NextResponse } from "next/server";
 import jwt from 'jsonwebtoken';
 import UserModel from "@/models/UserModel";
 
+
+
 export async function GET(request: NextRequest){
     try {
         const path = request.nextUrl.pathname.split('/api/%40');
@@ -37,7 +39,7 @@ export async function GET(request: NextRequest){
         const user_name = userName.username;
 
 
-        const userThread = await ThreadModel.find({ owner_id: id });
+        const userThread = await ThreadModel.find({ owner_id: id }).sort({createdAt: -1});
         // return NextResponse.json(userThread);
         const userThreadsWithUsername = userThread.map(thread => ({
             ...thread.toObject(),

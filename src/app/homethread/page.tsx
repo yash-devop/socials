@@ -5,11 +5,12 @@ import ReactTimeAgo from 'react-time-ago'
 import TimeAgo from 'javascript-time-ago'
 import Link from 'next/link'
 import axios from 'axios'
+import Image from 'next/image'
 // import en from 'javascript-time-ago/locale/en.json'
 
 
 const HomeThread = (curElem:any) => {
-   console.log('curelm',curElem);
+//    console.log('curelmAYA',curElem);
   return (
     <>
         <div className='flex gap-3 my-4 mx-3.5 border-b-[1px] border-[#333232]'>
@@ -24,7 +25,8 @@ const HomeThread = (curElem:any) => {
                         <MoreHorizontal className=''/>
                     </div>
                 </div>
-                <p className='pt-1 font-light'>{curElem._doc.body}</p>
+                <p className='pt-1 font-light mb-4'>{curElem._doc.body}</p>
+                <Image draggable={false} src={curElem._doc.thread_pic.url} alt="userPOSTimg" width={0} height={0} sizes="100vw" style={{ width: '100%', height: 'auto' }} />
                 <div className='flex gap-5 py-4'>
                     <Heart className='w-[22px]'/>
                     <MessageCircle className='w-[22px]'/>
