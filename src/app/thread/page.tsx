@@ -6,7 +6,7 @@ import en from 'javascript-time-ago/locale/en.json'
 import TimeAgo from 'javascript-time-ago'
 import Image from 'next/image'
 import extractLink from '@/helpers/extractLink'
-import { useRouter } from 'next/navigation'
+import { useRouter, useSearchParams } from 'next/navigation'
 TimeAgo.addDefaultLocale(en)
 const Thread = (curElem:any) => {
     const router = useRouter();
@@ -16,8 +16,10 @@ const Thread = (curElem:any) => {
 
     const pathname = window.location.pathname
     console.log('pathname',pathname);
+
+
     const redirectTo=()=>{
-        router.push(`${pathname}/post`)
+        router.push(`${pathname}/post/${curElem._id}`)
     }
 
   return (
