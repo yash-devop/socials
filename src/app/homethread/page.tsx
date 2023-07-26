@@ -6,16 +6,37 @@ import TimeAgo from 'javascript-time-ago'
 import Link from 'next/link'
 import axios from 'axios'
 import Image from 'next/image'
+import extractLink from '@/helpers/extractLink'
 // import en from 'javascript-time-ago/locale/en.json'
 
 
 const HomeThread = (curElem:any) => {
-//    console.log('curelmAYA',curElem);
+   console.log('curelmAYA',curElem);
+  const textLink = extractLink(curElem._doc.body);
+
+//   console.log("6th data " , curElem[6]);
   return (
     <>
         <div className='flex gap-3 my-4 mx-3.5 border-b-[1px] border-[#333232]'>
-            <div className='bg-red pt-4'>
-                <img src={'https://pbs.twimg.com/profile_images/77846223/profile_400x400.jpg'} alt="" className='rounded-full min-w-[30px] max-w-[45px]'/>
+            <div className='pt-4'>
+                {
+                    curElem.owner_id.profilepic && Object.getOwnPropertyNames(curElem.owner_id.profilepic).length > 0  ? (
+                        
+                        <Image src={curElem.owner_id.profilepic.url} className='rounded-full min-w-[45px] min-h-[45px] object-cover' draggable={false}
+                            alt="profile-pic"
+                            width={45}
+                            height={0}
+                            sizes="100vw"
+                        />
+                    ) : (
+                        <Image src={'https://pbs.twimg.com/profile_images/77846223/profile_400x400.jpg'} className='rounded-full min-w-[45px] min-h-[45px] object-cover' draggable={false}
+                        alt="profile-pic"
+                        width={45}
+                        height={0}
+                        sizes="100vw"
+                        />
+                    )
+                }
             </div>
             <div className='w-full'>
                 <div className='flex items-center justify-between'>
@@ -25,8 +46,23 @@ const HomeThread = (curElem:any) => {
                         <MoreHorizontal className=''/>
                     </div>
                 </div>
-                <p className='pt-1 font-light mb-4'>{curElem._doc.body}</p>
-                <Image draggable={false} src={curElem._doc.thread_pic.url} alt="userPOSTimg" width={0} height={0} sizes="100vw"  style={{ width: '100%', height: 'auto' }} />
+                <p className='mb-3'>
+                        {textLink === "" || textLink === null ? "" : curElem._doc.body.split(textLink)[0]}
+                        {textLink === "" || textLink === null ? curElem._doc.body : <a href={textLink} target="_blank" rel="noopener noreferrer" className='text-blue-400'>{textLink}</a>}
+                        {textLink === "" || textLink === null ? "" : curElem._doc.body.split(textLink)[1]}
+                </p>
+                {curElem._doc.thread_pic.url !== "" && (
+                            <Image
+                                src={curElem._doc.thread_pic.url}
+                                draggable={false}
+                                alt="userPOSTimg"
+                                width={0}
+                                height={0}
+                                sizes="100vw"
+                                style={{ width: '100%', height: 'auto', borderRadius: '4px' }}
+                            />
+                )}
+                {/* <Image draggable={false} src={curElem._doc.thread_pic.url} alt="userPOSTimg" width={0} height={0} sizes="100vw"  style={{ width: '100%', height: 'auto' }} /> */}
                 <div className='flex gap-5 py-4'>
                     <Heart className='w-[22px]'/>
                     <MessageCircle className='w-[22px]'/>

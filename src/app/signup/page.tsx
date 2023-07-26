@@ -75,8 +75,8 @@ const signup = () => {
             <input type="text" placeholder='Enter password' name="password" id="username" className='rounded-md h-12 pl-2  text-black outline-none' value={user.password} onChange={(e)=>setUser({...user , password:e.target.value})}/>
             <div data-rnwi-h7ga17-hover-focus="true" className='w-[50px] h-[50px] flex items-center justify-center rounded-full' onClick={handleImageInput}>
                   <ImageIcon width={24} className='cursor-pointer' />
-                </div>
-                <input type="file" hidden accept='image/*' className='image-input' onChange={handleImage}/>
+              </div>
+              <input type="file" hidden accept='image/*' className='image-input' onChange={handleImage}/>
             
             <button type='submit' className='p-4 border border-gray-200 max-w-[100px] mt-2 rounded-md' onClick={handleSubmit}>Signup</button>
             <Link href={'/login'} className='text-blue-400'>Signin ?</Link>

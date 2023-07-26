@@ -12,19 +12,27 @@ export async function GET(request: NextRequest){
         }
 
         const threads = await ThreadModel.find().sort({ createdAt: -1 });
-        // console.log('user',threads);
+        // console.log('userTHREADS',threads);
         const getUsernamePromises = threads.map(async (thread) => {
             const owner_id = thread.owner_id;
             const user = await UserModel.findById(owner_id);
-            // console.log('user',user);
+            console.log('user',user);
             return user?.username || null; 
-          });
-      
+        });
+        const getProfilePic = threads.map(async(thread)=>{
+          const owner_id = thread.owner_id;
+          const user = await UserModel.findById(owner_id);
+
+          return user?.profilepic || null
+        })
           const usernames = await Promise.all(getUsernamePromises); // returns array of all the usernames.
+          const allProfilePic = await Promise.all(getProfilePic);
+
+          console.log('allProPic', allProfilePic);
         //   console.log(usernames)
           const transformedThreads = threads.map((thread, index) => ({
             ...thread,  //first copy the data.
-            owner_id: { id: thread.owner_id, username: usernames[index] }  // then update the fields.
+            owner_id: { id: thread.owner_id, username: usernames[index] , profilepic : allProfilePic[index] }  // then update the fields.
           }));
 
           // console.log("TRANSFORMEDThread",transformedThreads)
