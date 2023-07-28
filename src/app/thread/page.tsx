@@ -24,7 +24,7 @@ const Thread = (curElem:any) => {
 
   return (
     <>
-        <div className='flex gap-3 my-4 mx-3.5 border-b-[1px] border-[#333232]' onClick={redirectTo}>
+        <div className='flex gap-3 my-4 mx-3.5 border-b-[1px] border-[#333232]'>
             <div className='bg-red pt-4 '>
                 <img src={'https://pbs.twimg.com/profile_images/77846223/profile_400x400.jpg'} alt="" className='rounded-full min-w-[30px] max-w-[45px]'/>
             </div>
@@ -36,7 +36,7 @@ const Thread = (curElem:any) => {
                         <MoreHorizontal className=''/>
                     </div>
                 </div>
-                <div className='threadLine '>
+                <div className='threadLine cursor-pointer' onClick={redirectTo}>
                     <div className='' id='threadLine'>
                     <p className='mb-3'>
                         {
@@ -72,10 +72,10 @@ const Thread = (curElem:any) => {
                     </div>
                 </div>
                 <div className='flex gap-5 py-4'>
-                    <Heart className='w-[22px]'/>
-                    <MessageCircle className='w-[22px]'/>
-                    <Repeat className='w-[22px]'/>
-                    <Send className='w-[22px]'/>
+                    <Heart className='w-[22px] cursor-pointer'/>
+                    <MessageCircle className='w-[22px] cursor-pointer'/>
+                    <Repeat className='w-[22px] cursor-pointer'/>
+                    <Send className='w-[22px] cursor-pointer'/>
                 </div>
                 <div className='text-[rgba(97,97,97,1)] pb-4 flex'>
                     <p>24,475 replies</p>

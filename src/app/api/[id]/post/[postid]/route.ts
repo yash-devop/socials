@@ -1,17 +1,15 @@
 import { getTokenData } from "@/helpers/getTokenData";
 import ThreadModel from "@/models/Threads";
-import { NextRequest, NextResponse } from "next/server";
-import jwt from 'jsonwebtoken';
 import UserModel from "@/models/UserModel";
-
-
+import { NextRequest, NextResponse } from "next/server";
 
 export async function GET(request: NextRequest){
-    
+    console.log('request',request);
     try {
         const path = request.nextUrl.pathname;
         const splitedPath = path.split('/post/')
         const userID = splitedPath[1]
+        console.log('userID',userID);
         const token = await getTokenData(request);
         console.log('token' , token);
         if(!token){
@@ -21,8 +19,9 @@ export async function GET(request: NextRequest){
             })
         }
 
-        // const user = await UserModel.findOne({username : username[0]})
-        const user = await ThreadModel.find()
+        // const user = await ThreadModel.findOne({_id : userID})
+        const user = await ThreadModel.findOne({_id : userID}).populate("owner_id","-password").sort({"updatedAt" : -1})
+        // const user = await ThreadModel.find()
 
         console.log('user ka data aaya re',user);
         // errorhandling

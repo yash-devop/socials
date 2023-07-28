@@ -20,7 +20,19 @@ const UserSchema= new mongoose.Schema({
         url:{
             type: String,
         }
-    }
+    },
+    followers:[
+        {
+            type: mongoose.Schema.Types.ObjectId,
+            ref: 'users',
+        }
+    ],
+    followings:[
+        {
+            type: mongoose.Schema.Types.ObjectId,
+            ref: 'users',
+        }
+    ],
 })
 
 const UserModel = mongoose.models.users ||  mongoose.model('users',UserSchema);

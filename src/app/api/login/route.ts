@@ -46,7 +46,7 @@ export async function POST(request: NextRequest){
             success : "pass"
         },{status: 200});
 
-        response.cookies.set('token',token,{sameSite:'none',secure:true})
+        response.cookies.set('token',token,{sameSite:'none',secure:true,httpOnly: true})  // todo : add the expiresIn key:Value.
 
         return response;
 

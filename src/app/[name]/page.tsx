@@ -6,12 +6,14 @@ import { useRouter } from "next/navigation";
 
 import Shortnav from '@/components/Shortnav'
 import Sidebar from "@/components/Sidebar";
+import UserModel from "@/models/UserModel";
 
 
 export default function Username({ params }: any) {
   // const router = useRouter();
   const [isUserThreads, setIsUserThreads] = useState(false);
   const [userThread, setUserThread] = useState<any>();
+  const [followFollowingData, setFollowFollowingData] = useState<any>()
   const getUserThread = async () => {
     try {
       const response = await axios.get(`/api/${params.name}`);
@@ -23,10 +25,38 @@ export default function Username({ params }: any) {
     }
   };
 
-  useEffect(() => {
-    getUserThread();
-  }, []);
+  const getFollowerFollowings=async()=>{
+    try {
+        const pathname = window.location.pathname
+        const path = pathname.split('/@');
+        console.log('pathhhhname',path[1]);
 
+        const response = await UserModel.findOne({username : path[1]})
+
+        console.log('BHAI HOGAYA SOLVE: ', response.data);
+      } catch (error) {
+          console.log('error',error);
+      }
+  }
+
+
+  const followUser=async()=>{
+      try {
+        
+        const response = await axios.put(`/api/${params.name}`)
+
+        setFollowFollowingData(response.data);
+        
+      } catch (error) {
+        console.log(error);
+      }
+    }
+    useEffect(() => {
+      getUserThread();
+      getFollowerFollowings();
+    }, []);
+    
+  console.log('GET FOLLWOERS', followFollowingData);
   console.log('UserThread', userThread);
   return (
     <>
@@ -64,7 +94,7 @@ export default function Username({ params }: any) {
                             <h2>Following</h2>
                           </div>
                         </div>
-                        <button className="border w-full rounded-md h-[3rem]">Follow</button>
+                        <button className="border w-full rounded-md h-[3rem]" onClick={followUser}>Follow</button>
                     </div>
                 </div>
                   {userThread.map((curElem: any) => {
