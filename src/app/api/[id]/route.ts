@@ -39,7 +39,9 @@ export async function GET(request: NextRequest){
         const userName = await UserModel.findOne({_id: id});
         const user_name = userName.username;
         
-        const userData = await UserModel.findOne({_id: id});
+        const userData = await UserModel.findOne({_id: id}).populate('followers').select('-password');
+
+        console.log('SOPHIA DATA F', userData);
 
         const userThread = await ThreadModel.find({ owner_id: id }).sort({createdAt: -1});
         // console.log('sophiaTHread',userThread);
@@ -48,7 +50,8 @@ export async function GET(request: NextRequest){
             ...thread.toObject(),
             username: user_name, // Attach the username to the thread,
             fullname,
-            profile_pic
+            profile_pic,
+            userData
         }));
       
           // Send the response with the userThreadsWithUsername array
@@ -65,6 +68,13 @@ export async function PUT(request: NextRequest){
     try {
         const path = request.nextUrl.pathname.split('/api/%40');
         console.log(path);
+
+
+        const reqBody = await request.json();
+        const {payload} = reqBody.body;
+        
+        console.log('payloadIS CLICK', payload);
+
         const token = await getTokenData(request);
         // console.log('token' , token);
         if(!token){
@@ -114,26 +124,3 @@ export async function PUT(request: NextRequest){
         })
     }
 }
-
-
-// const userWithFollowers = await UserModel.findByIdAndUpdate(id,{
-//     $push : {
-//         followers : userData._id
-//     }
-// },{
-//     new : true,
-// }(err,result)=>{
-//     if(err){
-//         return res.status(422).json({error:err});
-//     }
-//     await UserModel.findByIdAndUpdate(id,{
-//         $push:{
-
-//             following:user._id
-//         }
-//     },{
-//         new: true
-//     }).then((result)=>{
-//         res.json(result);
-//     }).catch((Err)=> console.log('error',Err))
-// })
