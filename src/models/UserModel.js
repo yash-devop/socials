@@ -25,12 +25,16 @@ const UserSchema= new mongoose.Schema({
         {
             type: mongoose.Schema.Types.ObjectId,
             ref: 'users',
-        }
+        },
     ],
     followings:[
         {
             type: mongoose.Schema.Types.ObjectId,
             ref: 'users',
+            isClicked: {
+                type : Boolean,
+                default: false
+            }
         }
     ],
 })

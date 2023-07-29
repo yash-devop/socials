@@ -2,31 +2,41 @@
 import axios from "axios";
 import { useEffect, useState } from "react";
 import Thread from "../thread/page";
-import { useRouter } from "next/navigation";
-
 import Shortnav from "@/components/Shortnav";
-import Sidebar from "@/components/Sidebar";
-import UserModel from "@/models/UserModel";
+import {DELETE} from '@/app/api/[id]/route'
+
 
 export default function Username({ params }: any) {
   // const router = useRouter();
   const [isUserThreads, setIsUserThreads] = useState(false);
   const [userThread, setUserThread] = useState<any>();
   const [userData, setUserData] = useState<any>([]);
+  const [isFollowing, setIsFollowing] = useState(false);
   const getUserThread = async () => {
     try {
       const response = await axios.get(`/api/${params.name}`);
       console.log("userThread", response);
       setUserThread(response.data);
       setIsUserThreads(true);
+      if (response.data && response.data[0]?.userData?.followings?.length > 0) {
+        setIsFollowing(true);
+      } else {
+        setIsFollowing(false);
+      }
     } catch (error) {
       console.log(error);
     }
   };
 
+
+  
   const followUser = async () => {
     try {
-      const response = await axios.put(`/api/${params.name}`);
+      const response = await axios.put(`/api/${params.name}`,{
+        payload: {
+            isClicked: true
+          }
+        });
       setUserData(response.data);
       getUserThread();
     } catch (error) {
@@ -38,6 +48,20 @@ export default function Username({ params }: any) {
       const response = await axios.put(`/api/${params.name}`);
       setUserData(response.data);
       getUserThread();
+    } catch (error) {
+      console.log(error);
+    }
+  };
+  const toggleFollow = async () => {
+    try {
+      if (isFollowing) {
+        // If user is following, unfollow
+        await unfollowUser();
+      } else {
+        // If user is not following, follow
+        await followUser();
+      }
+      setIsFollowing(!isFollowing); // Toggle the state after the API call is successful
     } catch (error) {
       console.log(error);
     }
@@ -97,12 +121,21 @@ export default function Username({ params }: any) {
                         <h2>Following</h2>
                       </div>
                     </div>
-                    <button className="border w-full rounded-md h-[3rem]" onClick={followUser} >
+                    {isFollowing ? (
+          <button className="w-full rounded-md h-[3rem] bg-[#2b2b2baf] text-[#555555] outline-none" onClick={toggleFollow}>
+            Following
+          </button>
+        ) : (
+          <button className="border w-full rounded-md h-[3rem] outline-none" onClick={toggleFollow}>
+            Follow
+          </button>
+        )}
+                    {/* <button className="border w-full rounded-md h-[3rem]" onClick={followUser} >
                       Follow
                     </button>
                     <button className=" w-full rounded-md h-[3rem] bg-[#2b2b2baf] text-[#555555]">
                       Following
-                    </button>
+                    </button> */}
                   </div>
                 </div>
                 {userThread.map((curElem: any) => {
