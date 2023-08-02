@@ -3,15 +3,17 @@ import axios from "axios";
 import { useEffect, useState } from "react";
 import Thread from "../thread/page";
 import Shortnav from "@/components/Shortnav";
-import {DELETE} from '@/app/api/[id]/route'
+import { getTokenData } from "@/helpers/getTokenData";
 
+import Link from "next/link";
 
 export default function Username({ params }: any) {
-  // const router = useRouter();
   const [isUserThreads, setIsUserThreads] = useState(false);
   const [userThread, setUserThread] = useState<any>();
-  const [userData, setUserData] = useState<any>([]);
+  const [togglerFollow, setTogglerFollow] = useState<string>("FOLLOW");
+  const [loggedInUserID, setLoggedInUserID] = useState<string | object>("");
   const [isFollowing, setIsFollowing] = useState(false);
+
   const getUserThread = async () => {
     try {
       const response = await axios.get(`/api/${params.name}`);
@@ -28,16 +30,22 @@ export default function Username({ params }: any) {
     }
   };
 
+  const getAuthUser = async () => {
+    try {
+      const response = await axios.get("/api/getuser");
+      console.log("AuthUser", response);
+      setLoggedInUserID(response.data.id);
+    } catch (error) {
+      console.log("getAuthUserERROR", error);
+    }
+  };
 
-  
   const followUser = async () => {
     try {
-      const response = await axios.put(`/api/${params.name}`,{
-        payload: {
-            isClicked: true
-          }
-        });
-      setUserData(response.data);
+      const response = await axios.put(`/api/${params.name}`, {
+        payload: "FOLLOW",
+      });
+
       getUserThread();
     } catch (error) {
       console.log(error);
@@ -45,31 +53,27 @@ export default function Username({ params }: any) {
   };
   const unfollowUser = async () => {
     try {
-      const response = await axios.put(`/api/${params.name}`);
-      setUserData(response.data);
+      const response = await axios.put(`/api/${params.name}`, {
+        payload: "UNFOLLOW",
+      });
+
       getUserThread();
     } catch (error) {
       console.log(error);
     }
   };
-  const toggleFollow = async () => {
-    try {
-      if (isFollowing) {
-        // If user is following, unfollow
-        await unfollowUser();
-      } else {
-        // If user is not following, follow
-        await followUser();
-      }
-      setIsFollowing(!isFollowing); // Toggle the state after the API call is successful
-    } catch (error) {
-      console.log(error);
-    }
-  };
+
+  console.log(
+    "const user = ",
+    userThread && userThread[0].userData.followers[0]?._id
+  );
+
   useEffect(() => {
     getUserThread();
+    getAuthUser();
   }, []);
 
+  console.log("FOLLOWER Data", userThread);
   return (
     <>
       <div className="">
@@ -109,9 +113,10 @@ export default function Username({ params }: any) {
                     <div className="followers-followings flex gap-7 text-[#4b4747] py-4">
                       <div className="flex">
                         <p className="pr-1">
-                          { userThread && userThread[0].userData?.followers.length }
+                          {userThread &&
+                            userThread[0].userData?.followers.length}
                         </p>
-                        <h2>Followers</h2>
+                        <h2><Link href={`${params.name}/followers`}>Followers</Link></h2>
                       </div>
                       <div className="flex">
                         <p className="pr-1">
@@ -121,21 +126,28 @@ export default function Username({ params }: any) {
                         <h2>Following</h2>
                       </div>
                     </div>
-                    {isFollowing ? (
-          <button className="w-full rounded-md h-[3rem] bg-[#2b2b2baf] text-[#555555] outline-none" onClick={toggleFollow}>
-            Following
-          </button>
-        ) : (
-          <button className="border w-full rounded-md h-[3rem] outline-none" onClick={toggleFollow}>
-            Follow
-          </button>
-        )}
-                    {/* <button className="border w-full rounded-md h-[3rem]" onClick={followUser} >
-                      Follow
-                    </button>
-                    <button className=" w-full rounded-md h-[3rem] bg-[#2b2b2baf] text-[#555555]">
-                      Following
-                    </button> */}
+
+                    {userThread &&
+                    userThread[0].userData.followers[0]?._id ===
+                      loggedInUserID ? (
+                      <>
+                        <button
+                          className="w-full rounded-md h-[3rem] bg-[#2b2b2baf] text-[#555555] outline-none"
+                          onClick={unfollowUser}
+                        >
+                          Following
+                        </button>
+                      </>
+                    ) : (
+                      <>
+                        <button
+                          className="border w-full rounded-md h-[3rem] outline-none"
+                          onClick={followUser}
+                        >
+                          Follow
+                        </button>
+                      </>
+                    )}
                   </div>
                 </div>
                 {userThread.map((curElem: any) => {

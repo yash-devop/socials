@@ -15,9 +15,9 @@
     --background-end-rgb: 0, 0, 0;
   }
 }
-html {
+/* html {
   scroll-behavior: smooth;
-}
+} */
 
 body {
   color: rgb(var(--foreground-rgb));
@@ -115,3 +115,10 @@ textarea::placeholder{
   background: blue;
   margin-right: 150px;
 } */
+
+
+
+.toggle-active{
+  --tw-text-opacity: 1;
+  color: rgb(96 165 250 / var(--tw-text-opacity));
+}

@@ -64,123 +64,92 @@ export async function GET(request: NextRequest){
         })
     }
 }
-export async function PUT(request: NextRequest){
+
+
+export async function PUT(request: NextRequest) {
     try {
         const path = request.nextUrl.pathname.split('/api/%40');
         console.log(path);
 
-
         const reqBody = await request.json();
-        const {payload} = reqBody;
-        
-        console.log('payloadIS CLICK', payload);
+        const { payload } = reqBody;
 
-        const token = await getTokenData(request);
-        // console.log('token' , token);
-        if(!token){
-            return NextResponse.json({
-                message: "User Not Logged in ! No Token Found",
-                success : "failed"
-            })
-        }
+        console.log('PAYLOAD', payload);
 
-        const user = await UserModel.findOne({username : path[1]})
-        // errorhandling
-        if(!user){
-            return NextResponse.json({
-                message: "NO USER FOUND",
-                success: "failed"
-            },{status : 404})
-        }
-        
-        
-        // below line executes when user found or the above if condition failed
-        const id = user._id;
-        const userData = await UserModel.findOne({_id: token.id});
-
-        const userWithFollowers = await UserModel.findByIdAndUpdate(id,{
-            $push : {
-                followers : userData._id
-            }
-        },{
-            new : true,
-        }).populate('followers').select('-password');
-
-        const addFollowings = await UserModel.findByIdAndUpdate(token.id,{
-            $push:{
-                followings: user._id
-            }
-        },{
-            new: true
-        }).populate('followings').select('-password');
-
-        return NextResponse.json(addFollowings)
-
-
-    } catch (error) {
-        return NextResponse.json({
-            message: error,
-            success: "failed"
-        })
-    }
-}
-
-
-
-export async function DELETE(request: NextRequest) {
-    try {
-        const path = request.nextUrl.pathname.split('/api/%40');
         const token = await getTokenData(request);
 
         if (!token) {
             return NextResponse.json({
                 message: "User Not Logged in! No Token Found",
-                success: "failed",
+                success: "failed"
             });
         }
 
         const user = await UserModel.findOne({ username: path[1] });
 
         if (!user) {
-            return NextResponse.json(
-                {
-                    message: "NO USER FOUND",
-                    success: "failed",
-                },
-                { status: 404 }
-            );
+            return NextResponse.json({
+                message: "NO USER FOUND",
+                success: "failed"
+            }, { status: 404 });
         }
 
         const id = user._id;
         const userData = await UserModel.findOne({ _id: token.id });
 
-        // Remove the user's ID from the 'followers' array of the user being unfollowed
-        await UserModel.findByIdAndUpdate(
-            id,
-            {
+        if (payload === "FOLLOW") {
+            // Follow user logic
+            console.log('FOLLOW IS WORKING');
+            const userWithFollowers = await UserModel.findByIdAndUpdate(id, {
+                $push: {
+                    followers: userData._id
+                }
+            }, {
+                new: true,
+            }).populate('followers').select('-password');
+            
+            const addFollowings = await UserModel.findByIdAndUpdate(token.id, {
+                $push: {
+                    followings: user._id
+                }
+            }, {
+                new: true
+            }).populate('followings').select('-password');
+            
+            return NextResponse.json(addFollowings);
+        } else if (payload === "UNFOLLOW") {
+            // Unfollow user logic
+            console.log('UnFOLLOW IS WORKING');
+            const userWithoutFollower = await UserModel.findByIdAndUpdate(id, {
                 $pull: {
-                    followers: userData._id,
-                },
-            },
-            { new: true }
-        ).populate('followers').select('-password');
+                    followers: userData._id
+                }
+            }, {
+                new: true,
+            }).populate('followers').select('-password');
 
-        // Remove the current user's ID from the 'followings' array of the user doing the unfollowing
-        const removeFollowings = await UserModel.findByIdAndUpdate(
-            token.id,
-            {
+            const removeFollowing = await UserModel.findByIdAndUpdate(token.id, {
                 $pull: {
-                    followings: id,
-                },
-            },
-            { new: true }
-        ).populate('followings').select('-password');
+                    followings: user._id
+                }
+            }, {
+                new: true
+            }).populate('followings').select('-password');
 
-        return NextResponse.json(removeFollowings);
+            return NextResponse.json(removeFollowing);
+        } else {
+            return NextResponse.json({
+                message: "Invalid payload",
+                success: "failed"
+            }, { status: 400 });
+        }
+
     } catch (error) {
         return NextResponse.json({
             message: error,
-            success: "failed",
+            success: "failed"
         });
     }
 }
+
+
