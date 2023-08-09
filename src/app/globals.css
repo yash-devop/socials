@@ -93,9 +93,6 @@ body {
 body:not(.dragging) [data-rnwi-h7ga17-hover-focus]:hover, body:not(.dragging) [data-rnwi-h7ga17-hover-focus]:focus {
   background-color: rgb(31, 32, 34);
 }
-.HomeImage-btn{
-   
-}
 
 textarea::-webkit-scrollbar{
   width: 0px;
@@ -121,4 +118,24 @@ textarea::placeholder{
 .toggle-active{
   --tw-text-opacity: 1;
   color: rgb(96 165 250 / var(--tw-text-opacity));
+}
+
+.line-container {
+  display: flex;
+  align-items: flex-start;
+  position: relative;
+}
+
+.line {
+  width: 2px;
+  background-color: currentColor;
+}
+
+.thread_card_bar{
+  position: relative;
+  margin-top: 1rem;
+  /* flex-grow: 1; */
+  width: 0.125rem;
+  border-radius: 100%;
+  background: #3b3b3b;
 }

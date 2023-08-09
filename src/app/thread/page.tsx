@@ -26,9 +26,14 @@ const Thread = (curElem:any) => {
     <>
         <div className='flex gap-3 my-4 mx-3.5 border-b-[1px] border-[#333232]'>
             <div className='bg-red pt-4 '>
-                <img src={'https://pbs.twimg.com/profile_images/77846223/profile_400x400.jpg'} alt="" className='rounded-full min-w-[30px] max-w-[45px]'/>
+                <Image src={curElem?.profile_pic?.url} className='rounded-full min-w-[45px] min-h-[45px] object-cover' draggable={false}
+                    alt="profile-pic"
+                    width={45}
+                    height={0}
+                    sizes="100vw"
+                />
             </div>
-            <div className='w-full '>
+            <div className='w-full'>
                 <div className='flex items-center justify-between'>
                     <h1 className='hover:underline cursor-pointer text-lg font-semibold'>{curElem.username}</h1>
                     <div className='flex'>
@@ -39,7 +44,7 @@ const Thread = (curElem:any) => {
                 <div className='threadLine cursor-pointer' onClick={redirectTo}>
                     <div className='' id='threadLine'>
                     <p className='mb-3'>
-                        {
+                        {/* {
                             textLink === "" || textLink === null ? (
                                 curElem.body
                             ) : (
@@ -53,10 +58,7 @@ const Thread = (curElem:any) => {
                                     }
                                 </>
                             )
-                        }
-                        {/* {textLink === "" || textLink === null ? "" : curElem.body.split(textLink)[0]}
-                        {textLink === "" || textLink === null ? curElem.body : <a href={textLink} target="_blank" rel="noopener noreferrer" className='text-blue-400'>{textLink}</a>}
-                        {textLink === "" || textLink === null ? "" : curElem.body.split(textLink)[1]} */}
+                        } */}
                     </p>
                         {curElem.thread_pic.url !== "" && (
                             <Image

@@ -18,7 +18,8 @@ const login = () => {
        toast.success("Login Successful")
        router.push('/home')
        
-    } catch (err) {
+      } catch (err:any) {
+      // toast.success(err)
       console.log(err)
     }
   }

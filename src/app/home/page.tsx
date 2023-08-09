@@ -183,7 +183,7 @@ useEffect(()=>{
                   homePageThreads.map((curElem: any) => {
                     return (
                       <>
-                        <HomeThread key={curElem._id} {...curElem} />
+                        <HomeThread key={curElem?._doc?._id } {...curElem} />
                       </>
                     );
                   })

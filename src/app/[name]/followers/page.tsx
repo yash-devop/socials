@@ -48,7 +48,7 @@ const Followers = ({ params }: any) => {
                 {getOthersData.fullname}
               </h1>
               <p className="hover:underline cursor-pointer text-base text-[#4b4b4b]">
-                @{getOthersData.username}
+                {getOthersData.username}
               </p>
             </div>
           </div>
