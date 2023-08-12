@@ -153,6 +153,9 @@ export default function PostPage({ params }: any) {
           </>
         )}
         <div className="mb-10">
+          {postData?.owner_id?.comments?.map((comment: any) => {
+            return (
+              <>
           <div className="flex gap-3 my-4 ">
             <div className="mt-3">
               <img
@@ -171,13 +174,7 @@ export default function PostPage({ params }: any) {
                   {"Sophia Johnson"}
                 </h1>
                 <p className="text-sm">
-                  Have watched your video and it’s great. I’ll also add this:
-                  making coding fun got me through. I had this theory that if
-                  you don’t like something and you consistently do it,
-                  eventually you’ll like it. And once you stick to it, work at
-                  it and work on it, you’ll become so familiar with it that
-                  you’ll begin to be creative with it. Just like playing COD for
-                  the first time.
+                  {comment}
                 </p>
               </div>
               <div className="flex gap-5 mt-4">
@@ -188,13 +185,9 @@ export default function PostPage({ params }: any) {
               </div>
             </div>
           </div>
-          {/* {postData?.owner_id?.comments?.map((comment: any) => {
-            return (
-              <>
-                <h1>{comment}</h1>
               </>
             );
-          })} */}
+          })}
         </div>
       </div>
     </>

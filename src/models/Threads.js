@@ -15,7 +15,16 @@ const ThreadSchema = new mongoose.Schema({
         url:{
             type: String,
         }
-    }
+    },
+    comments: [
+        {
+            text:String,
+            postedBy:{
+                type: mongoose.Schema.Types.ObjectId,
+                ref: "users"
+            }
+        }
+    ]
 },{
     timestamps: true
 })

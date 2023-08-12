@@ -33,20 +33,9 @@ const UserSchema= new mongoose.Schema({
             ref: 'users',
         }
     ],
-    comments: [
-        {
-            type: String,
-            body:{
-                type: String,
-            },
-            ref: "user",
-        }
-    ]
 })
 
 const UserModel = mongoose.models.users ||  mongoose.model('users',UserSchema);
 
 export default UserModel;
 
-
-// mongoose.Schema.Types.ObjectId

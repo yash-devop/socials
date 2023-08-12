@@ -49,13 +49,18 @@ export async function GET(request: NextRequest){
 export async function PUT(request: NextRequest){
     try {
         const path = request.nextUrl.pathname;
-        const splitedPath = path.split('/post/')[0].split('/api/')
-        const newsplitted = splitedPath[1].split('%40')
-        const username = newsplitted[1]
-        console.log('splitted',username);
+        const splitedPath = path.split('/post/')[1]
+        console.log('splitedpth',splitedPath);
+        // const newsplitted = splitedPath[1].split('%40')
+        // const username = newsplitted[1]
+        // console.log('splitted',username);
         const reqBody = await request.json()
         const {commentBody}  = reqBody;
-        console.log('requestBodyyyyyy',splitedPath);
+        // console.log('requestBodyyyyyy',splitedPath);
+
+        // const targetUsername = splitedPath[1];
+
+
 
         const token = await getTokenData(request);
         console.log('token' , token);
@@ -65,23 +70,30 @@ export async function PUT(request: NextRequest){
                 success : "failed"
             })
         }
-        const user = await UserModel.find({username});
+        const loggedInUser = await UserModel.findById(token.id);
 
-        console.log('userrrrCOMMENT',user);
-
-        const comments = await UserModel.findByIdAndUpdate("64c692d9915728fb83ecb6ba", {
-            $push: {
-                comments: commentBody
-            }
-        }, {
-            new: true,
-        }).select('-password');
+        if (!loggedInUser) {
+            return NextResponse.json({
+                message: "User not found",
+                success: "failed"
+            });
+        }
         
-        // .populate('owner_id profilepic fullname username followers followings')
+        // const TargettedUser = await UserModel.findOne({ username : targetUsername });
 
+        const newComment = {
+            text: commentBody, 
+            postedBy: loggedInUser._id
+        };
 
+        const updatedThread = await ThreadModel.findByIdAndUpdate(splitedPath, {
+            $push: {
+                comments: newComment
+            }
+        }, { new: true })
+        .populate("comments", "_id fullname username profilepic")
 
-        return NextResponse.json(comments)
+        return NextResponse.json(updatedThread);
 
     } catch (error) {
         return NextResponse.json({
