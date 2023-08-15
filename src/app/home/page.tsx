@@ -18,7 +18,6 @@ const home = () => {
   const [homePageThreads , setHomePageThreads] = useState<any>();
   const [isHomePageThreads , setIsHomePageThreads] = useState(false);
   const [image, setImage] = useState<string | ArrayBuffer| null>("");
-  // const [image, setImage] = useState<string | ArrayBuffer | null>(null);
   console.log('IMAGEE',image);
   const [threadBody,setThreadBody] = useState({
      body: "",
@@ -168,15 +167,6 @@ useEffect(()=>{
               />
             </form>
           </div>                         
-          {/* {
-              threads && threads.map((curElem:any)=>{
-                  return(
-                      <>
-                          <Thread key={curElem._id} {...curElem} />                
-                      </>
-                  )
-              })
-          } */}
           {
               isHomePageThreads ? (
                 homePageThreads && homePageThreads.length > 0 ? (

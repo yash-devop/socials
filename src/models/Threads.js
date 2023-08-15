@@ -21,7 +21,8 @@ const ThreadSchema = new mongoose.Schema({
             text:String,
             postedBy:{
                 type: mongoose.Schema.Types.ObjectId,
-                ref: "users"
+                ref: "users",
+
             }
         }
     ]

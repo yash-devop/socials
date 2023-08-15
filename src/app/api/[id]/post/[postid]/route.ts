@@ -71,6 +71,7 @@ export async function PUT(request: NextRequest){
             })
         }
         const loggedInUser = await UserModel.findById(token.id);
+        console.log('logggiend',loggedInUser);
 
         if (!loggedInUser) {
             return NextResponse.json({
@@ -83,15 +84,19 @@ export async function PUT(request: NextRequest){
 
         const newComment = {
             text: commentBody, 
-            postedBy: loggedInUser._id
+            postedBy: loggedInUser
         };
 
         const updatedThread = await ThreadModel.findByIdAndUpdate(splitedPath, {
             $push: {
                 comments: newComment
             }
-        }, { new: true })
-        .populate("comments", "_id fullname username profilepic")
+        }, { new: true }).populate({
+            path: "comments.postedBy",
+            model: "users",
+            select: "+profilepic"
+        })
+
 
         return NextResponse.json(updatedThread);
 
