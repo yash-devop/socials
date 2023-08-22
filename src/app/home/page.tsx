@@ -127,7 +127,6 @@ useEffect(()=>{
     <>
       <Shortnav/>
       <div className='max-w-[700px] mx-auto'>
-
           <div className='p-4 mx-auto'>
             <form action="" onSubmit={postThreads}>
                 <textarea required  className='w-full bg-[#16141491] p-4 rounded-lg outline-none' name="body" id="" placeholder='Say Something...' value={threadBody.body} onChange={(e)=>setThreadBody({...threadBody , body : e.target.value})}></textarea>

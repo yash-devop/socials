@@ -20,7 +20,7 @@ export async function GET(request: NextRequest){
         }
 
         // const user = await ThreadModel.findOne({_id : userID})
-        const user = await ThreadModel.findOne({_id : userID}).populate("owner_id","-password").sort({"updatedAt" : -1})
+        const user = await ThreadModel.findOne({_id : userID}).populate("owner_id","-password").populate("comments.user_id","-password").sort({"updatedAt" : -1})
         // const user = await ThreadModel.find()
 
         console.log('user ka data aaya re',user);
@@ -50,17 +50,8 @@ export async function PUT(request: NextRequest){
     try {
         const path = request.nextUrl.pathname;
         const splitedPath = path.split('/post/')[1]
-        console.log('splitedpth',splitedPath);
-        // const newsplitted = splitedPath[1].split('%40')
-        // const username = newsplitted[1]
-        // console.log('splitted',username);
         const reqBody = await request.json()
         const {commentBody}  = reqBody;
-        // console.log('requestBodyyyyyy',splitedPath);
-
-        // const targetUsername = splitedPath[1];
-
-
 
         const token = await getTokenData(request);
         console.log('token' , token);
@@ -71,7 +62,7 @@ export async function PUT(request: NextRequest){
             })
         }
         const loggedInUser = await UserModel.findById(token.id);
-        console.log('logggiend',loggedInUser);
+        console.log('logggiend',loggedInUser._id);
 
         if (!loggedInUser) {
             return NextResponse.json({
@@ -82,21 +73,19 @@ export async function PUT(request: NextRequest){
         
         // const TargettedUser = await UserModel.findOne({ username : targetUsername });
 
-        const newComment = {
-            text: commentBody, 
-            postedBy: loggedInUser
-        };
+        // const newComment = {
+        //     text: commentBody, 
+        //     postedBy: loggedInUser
+        // };
 
         const updatedThread = await ThreadModel.findByIdAndUpdate(splitedPath, {
             $push: {
-                comments: newComment
+                comments: {
+                    user_id: loggedInUser._id,
+                    text: commentBody,
+                }
             }
-        }, { new: true }).populate({
-            path: "comments.postedBy",
-            model: "users",
-            select: "+profilepic"
-        })
-
+        }, { new: true }).populate("comments.user_id","-password")
 
         return NextResponse.json(updatedThread);
 
@@ -106,4 +95,11 @@ export async function PUT(request: NextRequest){
             success: "failed"
         })
     }
-}
+}       
+
+
+// .populate({
+    //     path: "comments",
+    //     model: "users",
+    //     select: "+profilepic"
+    // })

@@ -80,7 +80,7 @@ const Thread = (curElem:any) => {
                     <Send className='w-[22px] cursor-pointer'/>
                 </div>
                 <div className='text-[rgba(97,97,97,1)] pb-4 flex'>
-                    <p>24,475 replies</p>
+                    <p>{curElem?.comments?.length} replies</p>
                     <p className='px-3'>·</p>
                     <p>127,883 likes</p>
                 </div>

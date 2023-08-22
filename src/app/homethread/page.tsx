@@ -80,21 +80,23 @@ const HomeThread = (curElem: any, index: any) => {
           <div className="thread_card_bar" style={{ height: imageHeight ? `${imageHeight}px` : 'auto' }}></div>
         </div>
         <div className="w-full">
-          <div onClick={()=>redirectTo()} className="cursor-pointer">
+          <div className="">
 
-          <div className="flex items-center justify-between">
+          <div className="flex items-center justify-between ">
             <h1 className="hover:underline cursor-pointer text-lg font-semibold">
               <Link href={`/@${curElem.owner_id.username}`}>
                 {curElem.owner_id.username}
               </Link>
             </h1>
-            <div className="flex">
+            <div className="flex ">
               <p className="text-[rgba(97,97,97,1)] mr-3"><ReactTimeAgo date={curElem?._doc?.updatedAt} locale='en-US'/></p>
               <MoreHorizontal className="" />
             </div>
           </div>
-          <div>
-            <p className="mb-3">
+          <div className="" onClick={()=>redirectTo()}>
+
+          <div className="">
+            <p className="mb-3 cursor-pointer">
               {textLink === "" || textLink === null
                 ? ""
                 : curElem._doc.body.split(textLink)[0]}
@@ -137,8 +139,13 @@ const HomeThread = (curElem: any, index: any) => {
             <Repeat className="w-[22px]" />
             <Send className="w-[22px]" />
           </div>
+          </div>
           <div className="text-[rgba(97,97,97,1)] pb-4 flex">
-            <p>24,475 replies</p>
+            <p className="hover:underline cursor-pointer">
+              <Link href={`${curElem?.owner_id?.username}/post/${curElem?._doc?._id}`}>
+              {curElem?._doc?.comments?.length} replies
+              </Link> 
+            </p>
             <p className="px-3">·</p>
             <p>127,883 likes</p>
           </div>

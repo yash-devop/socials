@@ -1,6 +1,7 @@
 "use client";
 import axios from "axios";
 import Image from "next/image";
+import Link from "next/link";
 import { useParams } from "next/navigation";
 import React, { useEffect, useState } from "react";
 import { Heart, MessageCircle, Repeat, Send } from "react-feather";
@@ -95,29 +96,27 @@ export default function PostPage({ params }: any) {
               </>
             )}
           </div>
-          {postData?.thread_pic?.url !== "" ? (
-            <Image
-              id={`withThreadLine`}
-              src={postData?.thread_pic?.url}
-              draggable={false}
-              alt="userPOSTimg"
-              width={0}
-              height={0}
-              sizes="100vw"
-              className=""
-              style={{
-                width: "100%",
-                height: "auto",
-                borderRadius: "4px",
-              }}
-            />
-          ) : (
-            <>
-              <div className="flex items-center justify-center h-80">
-                <span className="loader"></span>
-              </div>
-            </>
-          )}
+          {
+            postData?.thread_pic?.url == "" ? null : (
+                <>
+                <Image
+                id={`withThreadLine`}
+                src={postData?.thread_pic?.url}
+                draggable={false}
+                alt="userPOSTimg"
+                width={0}
+                height={0}
+                sizes="100vw"
+                className=""
+                style={{
+                  width: "100%",
+                  height: "auto",
+                  borderRadius: "4px",
+                }}
+              />
+                </>
+            )
+          }
           <div className="flex gap-5 my-4">
             <Heart className="w-[22px] cursor-pointer" />
             <MessageCircle
@@ -129,7 +128,7 @@ export default function PostPage({ params }: any) {
           </div>
           <div className="flex gap-4">
             <p className="text-sm">
-              {postData?.owner_id?.comments?.length} replies
+              {postData?.comments?.length} replies
             </p>
             <p className="text-sm">. 10 likes</p>
           </div>
@@ -153,42 +152,54 @@ export default function PostPage({ params }: any) {
           </>
         )}
         <div className="mb-10">
-          {postData?.owner_id?.comments?.map((comment: any) => {
+          {postData?.comments?.map((comment:any)=>{
             return (
               <>
-          <div className="flex gap-3 my-4 ">
-            <div className="mt-3">
-              <img
-                draggable={false}
-                src={
-                  "https://pbs.twimg.com/profile_images/77846223/profile_400x400.jpg"
-                }
-                alt=""
-                className="rounded-full min-w-[30px] max-w-[45px]"
-              />
-            </div>
-            <div className="w-full  flex flex-col">
-              <div className="flex flex-col  justify-between">
-                {/* redirect to @sophiadev when click on username */}
-                <h1 className="hover:underline cursor-pointer text-lg font-semibold">
-                  {"Sophia Johnson"}
-                </h1>
-                <p className="text-sm">
-                  {comment}
-                </p>
-              </div>
-              <div className="flex gap-5 mt-4">
-                <Heart className="w-[22px] cursor-pointer" />
-                <MessageCircle className="w-[22px] cursor-pointer" />
-                <Repeat className="w-[22px] cursor-pointer" />
-                <Send className="w-[22px] cursor-pointer" />
-              </div>
-            </div>
-          </div>
+                <div className="flex gap-3 my-4 ">
+                  <div className="mt-3">
+                    <img
+                      draggable={false}
+                      src={
+                        "https://pbs.twimg.com/profile_images/77846223/profile_400x400.jpg"
+                      }
+                      alt=""
+                      className="rounded-full min-w-[30px] max-w-[45px]"
+                    />
+                  </div>
+                  <div className="w-full  flex flex-col">
+                    <div className="flex flex-col  justify-between">
+                      <h1 className="hover:underline cursor-pointer text-lg font-semibold">
+                        <Link href={``}> 
+                        {comment?.user_id?.username}
+                        </Link>
+                      </h1>
+                      <p className="text-sm">{comment.text}</p>
+                    </div>
+                    <div className="flex gap-5 mt-4">
+                      <Heart className="w-[22px] cursor-pointer" />
+                      <MessageCircle className="w-[22px] cursor-pointer" />
+                      <Repeat className="w-[22px] cursor-pointer" />
+                      <Send className="w-[22px] cursor-pointer" />
+                    </div>
+                  </div>
+                </div>
               </>
             );
           })}
         </div>
+        {/* <div>
+          {
+             postData?.comments?.map((comment:any)=>{
+                return(
+                  <>
+                    {
+                      comment?.text
+                    }
+                  </>
+                )
+             })
+          }
+        </div> */}
       </div>
     </>
   );
