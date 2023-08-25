@@ -52,12 +52,12 @@ const HomeThread = (curElem: any, index: any) => {
   return (
     <>
       <div className="flex gap-3 my-4 mx-3.5 border-b-[1px]  border-[#333232]">
-        <div className="pt-4  flex flex-col items-center ">
+        <div className="pt-4  flex flex-col items-center">
           {curElem.owner_id.profilepic &&
           Object.getOwnPropertyNames(curElem.owner_id.profilepic).length > 0 ? (
             <Image
               src={curElem.owner_id.profilepic.url}
-              className="rounded-full min-w-[45px] min-h-[45px] object-cover"
+              className="rounded-full min-w-[45px] min-h-[45px] object-cover cursor-pointer"
               draggable={false}
               alt="profile-pic"
               width={45}
@@ -69,7 +69,7 @@ const HomeThread = (curElem: any, index: any) => {
               src={
                 "https://pbs.twimg.com/profile_images/77846223/profile_400x400.jpg"
               }
-              className="rounded-full min-w-[45px] min-h-[45px] object-cover"
+              className="rounded-full min-w-[45px] min-h-[45px] object-cover cursor-pointer"
               draggable={false}
               alt="profile-pic"
               width={45}

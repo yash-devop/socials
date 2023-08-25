@@ -76,6 +76,9 @@ useEffect(()=>{
         const response = await axios.post("/api/thread",threadBody)
         fetchThreads();
         notifySuccess();
+        setDisplayImage(null);
+        setThreadBody({...threadBody , body:""})
+
      } catch (err) {
         console.log(err);
         notifyError();
@@ -126,46 +129,51 @@ useEffect(()=>{
   return (
     <>
       <Shortnav/>
-      <div className='max-w-[700px] mx-auto'>
-          <div className='p-4 mx-auto'>
-            <form action="" onSubmit={postThreads}>
-                <textarea required  className='w-full bg-[#16141491] p-4 rounded-lg outline-none' name="body" id="" placeholder='Say Something...' value={threadBody.body} onChange={(e)=>setThreadBody({...threadBody , body : e.target.value})}></textarea>
-                  {
+      <div className='max-w-[640px] mx-auto'>
+          <div className='w-full mx-auto flex items-center mb-4 pb-3 border-b border-[#414141]'>
+            <div className=''>
+              <img alt='img' src='https://pbs.twimg.com/profile_images/77846223/profile_400x400.jpg' className='w-[50px] h-[50px] object-cover rounded-full'/>
+            </div>
+            <form action="" onSubmit={postThreads} className='flex w-full'>
+                {/* bg-[#16141491]  */}
+                <textarea required  className='flex items-center w-full bg-transparent p-4 rounded-lg outline-none font-light' name="body" id="" placeholder='Say Something...' value={threadBody.body} onChange={(e)=>setThreadBody({...threadBody , body : e.target.value})}></textarea>
+                <div className='HomeImage-btn flex justify-between items-center pt-2 cursor-pointer' >
+                    <div data-rnwi-h7ga17-hover-focus="true" className='w-[50px] h-[50px] flex items-center justify-center rounded-full' onClick={handleImageInput}>
+                      <ImageIcon width={24} className='cursor-pointer' />
+                    </div>
+                    <input type="file" hidden accept='image/*' className='image-input' onChange={handleImage}/>
+                    {
+                      threadBody.body === "" || threadBody.body.length <= 4 ? (
+                          <>
+                              <input type="submit" disabled value="Post" className='bg-[#292929] text-black py-2 px-4 border border-black rounded text-sm cursor-pointer' />
+                          </>
+                      ) : (
+                        <>
+                              <input type="submit" value="Post" className='bg-white text-black py-2 px-4 border border-black rounded text-sm cursor-pointer' />
+                        </>
+                      )
+                    }
+                </div>
+                <Toaster
+                    position="bottom-center"
+                    reverseOrder={true}
+                />
+            </form>
+          </div>                         
+            {
                     displayImage ? (
                       <>
                       
-                          <div className='relative'>
-                            <img src={displayImage} draggable={false} alt="" className='relative w-[700px] min-h-[471px] object-cover'/>
-                            <div className='absolute top-0 right-0'>
+                          <div className='relative  flex '>
+                            <img src={displayImage} draggable={false} alt="" className='overflow-x-hidden relative w-[400px] min-h-[260px] max-h-[260px] aspect-auto object-cover rounded-lg'/>
+                            <div className='absolute inset-0'>
                             <XCircle  width={40} className='mt-3 mr-2 top-0 right-0 shadow-2xl  text-[#41404b] cursor-pointer' onClick={deleteImage}/>
                             </div>
                           </div>
                       </>
                     ) : null
-                  }
-              <div className='HomeImage-btn flex justify-between items-center pt-2 cursor-pointer' >
-                  <div data-rnwi-h7ga17-hover-focus="true" className='w-[50px] h-[50px] flex items-center justify-center rounded-full' onClick={handleImageInput}>
-                    <ImageIcon width={24} className='cursor-pointer' />
-                  </div>
-                  <input type="file" hidden accept='image/*' className='image-input' onChange={handleImage}/>
-                  {
-                    threadBody.body === "" || threadBody.body.length <= 4 ? (
-                        <>
-                            <input type="submit" disabled value="Post" className='bg-[#292929] text-black py-2 px-4 border border-black rounded text-sm cursor-pointer' />
-                        </>
-                    ) : (
-                      <>
-                            <input type="submit" value="Post" className='bg-white text-black py-2 px-4 border border-black rounded text-sm cursor-pointer' />
-                      </>
-                    )
-                  }
-              </div>
-              <Toaster
-                  position="bottom-center"
-                  reverseOrder={true}
-              />
-            </form>
-          </div>                         
+            }
+            
           {
               isHomePageThreads ? (
                 homePageThreads && homePageThreads.length > 0 ? (
@@ -180,7 +188,7 @@ useEffect(()=>{
                   router.push('/login')
                   )
                   ) : (
-                <div className='flex items-center justify-center h-80'>
+                <div className='flex items-center justify-center h-60'>
                   <span className="loader"></span>
                 </div>
               )

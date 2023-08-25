@@ -59,6 +59,9 @@ export default function PostPage({ params }: any) {
 
   console.log("data", postData);
   console.log("Comments DATA", commentData);
+  {
+    console.log('params',params)
+  }
   return (
     <>
       <div className="max-w-[500px] md:max-w-[700px] mx-auto border-b-[1px] border-[#333232] ">
@@ -107,7 +110,7 @@ export default function PostPage({ params }: any) {
                 width={0}
                 height={0}
                 sizes="100vw"
-                className=""
+                className="cursor-pointer"
                 style={{
                   width: "100%",
                   height: "auto",
@@ -166,16 +169,17 @@ export default function PostPage({ params }: any) {
                       className="rounded-full min-w-[30px] max-w-[45px]"
                     />
                   </div>
-                  <div className="w-full  flex flex-col">
+                        
+                  <div className="w-full  flex flex-col border-b border-b-[#313131]">
                     <div className="flex flex-col  justify-between">
                       <h1 className="hover:underline cursor-pointer text-lg font-semibold">
-                        <Link href={``}> 
+                        <Link href={`/@${comment?.user_id?.username}`}> 
                         {comment?.user_id?.username}
                         </Link>
                       </h1>
                       <p className="text-sm">{comment.text}</p>
                     </div>
-                    <div className="flex gap-5 mt-4">
+                    <div className="flex gap-5 mt-4 mb-6">
                       <Heart className="w-[22px] cursor-pointer" />
                       <MessageCircle className="w-[22px] cursor-pointer" />
                       <Repeat className="w-[22px] cursor-pointer" />
@@ -187,19 +191,7 @@ export default function PostPage({ params }: any) {
             );
           })}
         </div>
-        {/* <div>
-          {
-             postData?.comments?.map((comment:any)=>{
-                return(
-                  <>
-                    {
-                      comment?.text
-                    }
-                  </>
-                )
-             })
-          }
-        </div> */}
+
       </div>
     </>
   );

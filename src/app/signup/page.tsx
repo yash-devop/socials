@@ -3,6 +3,7 @@ import axios from 'axios';
 import React, { useState ,useEffect, ChangeEvent} from 'react'
 import Link from 'next/link'; 'next/link'
 import {Image as ImageIcon} from 'react-feather'
+import { Toaster, toast } from 'react-hot-toast';
   
 const signup = () => {
     const [displayImage , setDisplayImage] = useState<any>("");
@@ -35,9 +36,10 @@ const signup = () => {
     const handleSubmit=async()=>{
         try {
             axios.post('/api/signup',user)
-            
-        } catch (err) {
+            toast.success("Signup Successful")
+          } catch (err) {
             console.log(err)
+            toast.error("Error")
         }
     }
 
@@ -80,6 +82,10 @@ const signup = () => {
             
             <button type='submit' className='p-4 border border-gray-200 max-w-[100px] mt-2 rounded-md' onClick={handleSubmit}>Signup</button>
             <Link href={'/login'} className='text-blue-400'>Signin ?</Link>
+            <Toaster
+                position="top-center"
+                reverseOrder={false}
+            />
         </div>
     </>
   )

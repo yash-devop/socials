@@ -44,7 +44,7 @@ const Thread = (curElem:any) => {
                 <div className='threadLine cursor-pointer' onClick={redirectTo}>
                     <div className='' id='threadLine'>
                     <p className='mb-3'>
-                        {/* {
+                        {
                             textLink === "" || textLink === null ? (
                                 curElem.body
                             ) : (
@@ -58,7 +58,7 @@ const Thread = (curElem:any) => {
                                     }
                                 </>
                             )
-                        } */}
+                        }
                     </p>
                         {curElem.thread_pic.url !== "" && (
                             <Image

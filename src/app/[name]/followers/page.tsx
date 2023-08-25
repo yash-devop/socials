@@ -28,7 +28,7 @@ const Followers = ({ params }: any) => {
   console.log("getotherdata", getOthersData.followers);
   return (
     <>
-      <div className="max-w-[500px] md:max-w-[650px] mx-auto ">
+      <div className="max-w-[500px] md:max-w-[640px] mx-auto ">
         {/* border-b-[1px] border-[#333232]  */}
         <div className="flex items-center gap-3 mt-4 mb-12">
           <div className="pt-2">
