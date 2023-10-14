@@ -19,6 +19,7 @@ export default function PostPage({ params }: any) {
         `/api/${params.name}/post/${params.postid}`
       );
       setPostData(response.data);
+      setComments({ ...comments, body: ""})
     } catch (error) {
       console.log(error);
     }
@@ -64,7 +65,7 @@ export default function PostPage({ params }: any) {
   }
   return (
     <>
-      <div className="max-w-[500px] md:max-w-[700px] mx-auto border-b-[1px] border-[#333232] ">
+      <div className="max-w-[500px] md:max-w-[700px] mx-auto  border-[#333232] ">
         <div className="mx-2">
           <div className="flex items-center gap-3 my-4  ">
             <div className="">
@@ -81,7 +82,7 @@ export default function PostPage({ params }: any) {
               <div className="flex items-center justify-between">
                 {/* redirect to @sophiadev when click on username */}
                 <h1 className="hover:underline cursor-pointer text-lg font-semibold">
-                  {"Sophia Johnson"}
+                  {postData?.owner_id?.username}
                 </h1>
               </div>
             </div>
@@ -120,7 +121,7 @@ export default function PostPage({ params }: any) {
                 </>
             )
           }
-          <div className="flex gap-5 my-4">
+          <div className="flex gap-5 my-4 border-b border-[#2c2929d7] pb-4">
             <Heart className="w-[22px] cursor-pointer" />
             <MessageCircle
               className="w-[22px] cursor-pointer"
@@ -162,9 +163,7 @@ export default function PostPage({ params }: any) {
                   <div className="mt-3">
                     <img
                       draggable={false}
-                      src={
-                        "https://pbs.twimg.com/profile_images/77846223/profile_400x400.jpg"
-                      }
+                      src={comment?.user_id?.profilepic?.url}
                       alt=""
                       className="rounded-full min-w-[30px] max-w-[45px]"
                     />

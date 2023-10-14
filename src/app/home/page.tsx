@@ -74,7 +74,7 @@ useEffect(()=>{
      e.preventDefault();
      try {
         const response = await axios.post("/api/thread",threadBody)
-        fetchThreads();
+        // fetchThreads();
         notifySuccess();
         setDisplayImage(null);
         setThreadBody({...threadBody , body:""})
@@ -93,14 +93,14 @@ useEffect(()=>{
       console.log(err);
     }
   }
-  const fetchThreads = async () => {
-    try {
-      const response = await axios.get("/api/feeds");
-      setThreads(response.data.allThreads);
-    } catch (err) {
-      console.log(err);
-    }
-  };
+  // const fetchThreads = async () => {
+  //   try {
+  //     const response = await axios.get("/api/feeds");
+  //     setThreads(response.data.allThreads);
+  //   } catch (err) {
+  //     console.log(err);
+  //   }
+  // };
 
    
   const handleImageInput=()=>{
@@ -120,9 +120,9 @@ useEffect(()=>{
   useEffect(()=>{
       homeThreads()
   },[])
-  useEffect(()=>{
-      fetchThreads()
-  },[])
+  // useEffect(()=>{
+  //     fetchThreads()
+  // },[])
 
   console.log('NEW METHOD', homePageThreads);
 

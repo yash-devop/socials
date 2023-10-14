@@ -19,7 +19,7 @@ TimeAgo.addDefaultLocale(en)
 const HomeThread = (curElem: any, index: any) => {
   const router = useRouter();
   const textLink = extractLink(curElem._doc.body);
-  console.log("Image indexes", curElem._doc._id);
+  // console.log("Image indexes", curElem._doc._id);
   const [imageHeight, setImageHeight] = useState<number | null>(null);
 
   const handleImageLoad = () => {
@@ -52,7 +52,7 @@ const HomeThread = (curElem: any, index: any) => {
   return (
     <>
       <div className="flex gap-3 my-4 mx-3.5 border-b-[1px]  border-[#333232]">
-        <div className="pt-4  flex flex-col items-center">
+        <div className="pt-4 flex flex-col items-center ">
           {curElem.owner_id.profilepic &&
           Object.getOwnPropertyNames(curElem.owner_id.profilepic).length > 0 ? (
             <Image

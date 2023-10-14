@@ -153,7 +153,7 @@ export default function Username({ params }: any) {
                 {userThread.map((curElem: any) => {
                   return (
                     <>
-                      <Thread key={curElem._id} {...curElem} />
+                        <Thread key={curElem._id} {...curElem} />
                     </>
                   );
                 })}
