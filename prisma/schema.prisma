@@ -1,0 +1,134 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "mongodb"
+  url      = env("DATABASE_URL")
+}
+
+model User {
+  id         String       @id @default(auto()) @map("_id") @db.ObjectId
+  fullname   String
+  username   String
+  password   String
+  profilepic ProfilePic[]
+  comments   Comment[]
+  threads    Threads[]
+}
+
+model ProfilePic {
+  id        String @id @default(auto()) @map("_id") @db.ObjectId
+  public_id String @db.ObjectId
+  url       String
+  user_id   String @db.ObjectId
+
+  user User @relation(fields: [user_id], references: [id])
+}
+
+model Threads {
+  id           String    @id @default(auto()) @map("_id") @db.ObjectId
+  user_id      String    @db.ObjectId
+  body         String
+  thread_PicId String    @db.ObjectId
+  thread_pic Thread_Pic @relation(fields: [thread_PicId], references: [id])
+  user       User       @relation(fields: [user_id], references: [id])
+}
+
+model Thread_Pic {
+  id        String    @id @default(auto()) @map("_id") @db.ObjectId
+  public_id String    @db.ObjectId
+  url       String
+  Threads   Threads[]
+}
+
+model Comment {
+  id        String   @id @default(auto()) @map("_id") @db.ObjectId
+  text      String
+  createdAt DateTime @default(now())
+  user_id   String   @db.ObjectId
+  thread_id String   @db.ObjectId
+  user      User     @relation(fields: [id], references: [id])
+  threads   Threads  @relation(fields: [thread_id], references: [id])
+}
+
+// // This is your Prisma schema file,
+// // learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+// generator client {
+//   provider = "prisma-client-js"
+// }
+
+// datasource db {
+//   provider = "mongodb"
+//   url      = env("DATABASE_URL")
+// }
+
+// model User {
+//   id           String       @id @default(auto()) @map("_id") @db.ObjectId
+//   fullname     String
+//   username     String
+//   password     String
+//   profilepic   ProfilePic[]
+//   Followers    Followers?   @relation(fields: [follower_id], references: [id])
+//   Followings   Followings?  @relation(fields: [following_id], references: [id])
+//   follower_id  String?      @db.ObjectId
+//   following_id String?      @db.ObjectId
+//   comments     Comments[]
+//   Threads      Threads[]
+// }
+
+// model ProfilePic {
+//   id           String      @id @default(auto()) @map("_id") @db.ObjectId
+//   public_id    String
+//   url          String
+//   user         User        @relation(fields: [user_id], references: [id])
+//   user_id      String      @db.ObjectId
+//   Followers    Followers?  @relation(fields: [followersId], references: [id])
+//   followersId  String?     @db.ObjectId
+//   Followings   Followings? @relation(fields: [followingsId], references: [id])
+//   followingsId String?     @db.ObjectId
+// }
+
+// model Followers {
+//   id          String       @id @default(auto()) @map("_id") @db.ObjectId
+//   fullname    String
+//   username    String
+//   profilepic  ProfilePic[]
+//   follower_id String
+//   User        User[]
+// }
+
+// model Followings {
+//   id           String       @id @default(auto()) @map("_id") @db.ObjectId
+//   fullname     String
+//   username     String
+//   profilepic   ProfilePic[]
+//   following_id String
+//   User         User[]
+// }
+
+// model Threads {
+//   id           String     @id @default(auto()) @map("_id") @db.ObjectId
+//   owner_id     User       @relation(fields: [id], references: [id])
+//   body         String
+//   thread_pic   Thread_Pic @relation(fields: [thread_PicId], references: [id])
+//   thread_PicId String     @db.ObjectId
+// }
+
+// model Thread_Pic {
+//   id        String    @id @default(auto()) @map("_id") @db.ObjectId
+//   public_id String
+//   url       String
+//   Threads   Threads[]
+// }
+
+// model Comments {
+//   id        String   @id @default(auto()) @map("_id") @db.ObjectId
+//   user_id   User     @relation(fields: [id], references: [id])
+//   text      String
+//   createdAt DateTime @default(now())
+// }
